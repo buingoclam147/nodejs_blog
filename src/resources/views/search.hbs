@@ -1,10 +1,17 @@
 <div class="mt-4">
-    <form method="GET" action="/news">
+    <form method="POST" action="">
         <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">keywork</label>
             <input type="text" name="q" class="form-control" id="exampleInputEmail1" placeholder="Enter keywords,...">
         </div>
-
+        <div class="mb-3">
+            <label for="gender-input" class="form-label">keywork</label>
+            <select  name="gender" class="form-control" id="gender-input">
+            <option value="">--chon gioi tinh--</option>
+            <option value="male">nam</option>
+            <option value="frmale">nu</option>
+            </select>
+        </div>
         <button type="submit" class="btn btn-primary">search</button>
     </form>
 </div>
