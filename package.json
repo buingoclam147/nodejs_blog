@@ -28,7 +28,8 @@
   "homepage": "https://github.com/buingoclam147/nodejs_blog#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "express-handlebars": "^5.3.0"
+    "express-handlebars": "^5.3.0",
+    "mongoose": "^5.12.7"
   },
   "devDependencies": {
     "morgan": "^1.10.0",

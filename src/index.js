@@ -2,13 +2,17 @@ const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
 const handlebars = require('express-handlebars');
-const { query } = require('express');
-const { deprecate } = require('util');
+
+const route = require('./routes');
+const db = require('./config/db');
+
+//connect db
+db.connect();
 
 const app = express();
 const port = 3000;
 
-const route = require('./routes');
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 //middleware dùng cho clien và thư viện
