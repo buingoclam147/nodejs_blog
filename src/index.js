@@ -16,12 +16,21 @@ const port = 3000;
 
 app.use(express.static(path.join(__dirname, 'public')));
 //middleware dùng cho clien và thư viện
+const methodOverride = require('method-override')
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 //http logger
 app.use(morgan('combined'));
 //template engine
-app.engine('hbs', handlebars({ extname: '.hbs' }));
+app.use(methodOverride('_method'))
+app.engine('hbs', handlebars({
+    extname: '.hbs',
+    helpers: {
+        sum: (a, b) => a + b,
+    }
+})
+
+);
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources', 'views'));
 // console.log('PATH:', path.join(__dirname, 'resources/views'))
