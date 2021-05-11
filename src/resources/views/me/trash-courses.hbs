@@ -1,7 +1,7 @@
 <div class="mt-4">
     <div>
-        <h3>Khóa học của tôi</h3>
-        <a href="/me/trash/courses">Thùng rác</a>
+        <h3>Thùng rác</h3>
+        <a href="/me/stored/courses">Danh sách khóa học</a>
     </div>
     <table class="table mt-4">
         <thead>
@@ -19,16 +19,15 @@
                 <td>{{this.name}}</td>
                 <td>{{this.level}}</td>
                 <td>{{this.createdAt}}</td>
-                <td><a href="/courses/{{this._id}}/edit" class="btn btn-primary">Sửa</a>
-                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#delete-courses-modal"
-                        data-id="{{this._id}}">Xóa</a>
-                </td>
+                <td><a href="#" class="btn btn-primary btn-restore" data-id="{{this._id}}"
+                        onclick="restoreBtn(event)">Khôi phục</a></td>
+                <td><a href="#" class="btn btn-primary" data-bs-toggle="modal" data-id="{{this._id}}"
+                        data-bs-target="#delete-courses-modal">Xóa vĩnh viễn </a></td>
             </tr>
             {{else}}
             <tr>
                 <td colspan="5" class="text-center">
-                    Bạn chưa có khóa học nào.
-                    <a href="/courses/create">Thêm khóa học</a>
+                    rỗng
                 </td>
             </tr>
             {{/each}}
@@ -44,32 +43,41 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Bạn có chắc muốn xóa khóa học ?</p>
+                <p>Nguy hiểm</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Không xóa</button>
-                <button id="btn-delete-course" type="button" class="btn btn-danger">Chắc hơn bao giờ hết</button>
+                <button id="btn-delete-course" type="button" class="btn btn-danger">hành động này không thể khôi phục</button>
             </div>
         </div>
     </div>
 </div>
 {{!-- delete form --}}
 <form method="POST" name="delete-course-form"></form>
+{{!-- restore form --}}
+<form method="POST" name="restore-course-form"></form>
 
 <script>
     var courseId;
     var deleteForm = document.forms['delete-course-form'];
+    var restoreForm = document.forms['delete-course-form'];
     var btnDeleteCourse = document.getElementById('btn-delete-course');
-
+    var exampleModal = document.getElementById('delete-courses-modal');
     // lấy id ở cái btn nào được click ra 
-    var exampleModal = document.getElementById('delete-courses-modal')
     exampleModal.addEventListener('show.bs.modal', function (event) {
         var button = event.relatedTarget
         courseId = button.getAttribute('data-id')
     })
+
     // vẽ đường dẫn lên để đẩy qua courseController  
     btnDeleteCourse.onclick = () => {
-        deleteForm.action = '/courses/' + courseId + '?_method=DELETE';
+        deleteForm.action = '/courses/' + courseId + '/force?_method=DELETE';
         deleteForm.submit();
+    }
+    function restoreBtn(id) {
+        var restore = id.toElement.dataset.id;
+        restoreForm.action = '/courses/' + restore + '/restore?_method=PATCH';
+        restoreForm.submit();
+
     }
 </script>
